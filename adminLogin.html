@@ -22,13 +22,11 @@
             font-size: 50px;
             font-weight: bold;
             color: #FFD700;
-            /* Gold color */
             text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
             background-color: rgba(0, 0, 0, 0.6);
             padding: 10px 20px;
             border-radius: 10px;
             display: inline-block;
-            /* Makes it inline-block */
             margin-bottom: 20px;
         }
 
@@ -103,7 +101,6 @@
         <button onclick="adminLogin()">Login</button>
     </div>
 
-
     <!-- Dashboard -->
     <div class="dashboard" id="dashboard">
         <h2>Admin Dashboard</h2>
@@ -148,33 +145,36 @@
                 localStorage.setItem('submissions', JSON.stringify(submissions));
             }
 
+            console.log("Loaded Submissions:", submissions);
+
             const tableBody = document.querySelector('#userTable tbody');
             tableBody.innerHTML = '';
 
             submissions.forEach((user, index) => {
                 const row = `<tr>
-          <td>${user.name}</td>
-          <td>${user.doorNo}</td>
-          <td>${user.street}</td>
-          <td>${user.village}</td>
-          <td>${user.garbageType}</td>
-          <td id="status-${index}">${user.status}</td>
-          <td>
-            <input type="text" id="statusInput-${index}" placeholder="Enter Status">
-            <button onclick="updateStatus(${index})">Update</button>
-          </td>
-        </tr>`;
+                    <td>${user.name}</td>
+                    <td>${user.doorNo}</td>
+                    <td>${user.street}</td>
+                    <td>${user.village}</td>
+                    <td>${user.garbageType}</td>
+                    <td id="status-${index}">${user.status}</td>
+                    <td>
+                        <input type="text" id="statusInput-${index}" placeholder="Enter Status">
+                        <button onclick="updateStatus(${index})">Update</button>
+                    </td>
+                </tr>`;
                 tableBody.innerHTML += row;
             });
         }
 
         function updateStatus(index) {
             let submissions = JSON.parse(localStorage.getItem('submissions')) || [];
-            const newStatus = document.getElementById(⁠ statusInput - ${ index } ⁠).value;
+            const newStatus = document.getElementById(`statusInput-${index}`).value.trim();
+
             if (newStatus) {
                 submissions[index].status = newStatus;
                 localStorage.setItem('submissions', JSON.stringify(submissions));
-                document.getElementById(⁠ status - ${ index } ⁠).innerText = newStatus;
+                document.getElementById(`status-${index}`).innerText = newStatus;
                 alert('Status updated successfully!');
             } else {
                 alert('Please enter a valid status.');

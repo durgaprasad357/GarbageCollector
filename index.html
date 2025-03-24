@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+            background: url('https://fiinovation.co.in/wp-content/uploads/2022/08/Waste-Management-CSR-Focus-Areas.jpg') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-left: 80px;
+        }
+
+        .header {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 40px;
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+            font-family: 'Georgia', serif;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 12px;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            width: 320px;
+        }
+
+        input,
+        select,
+        button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 8px 0;
+            border-radius: 6px;
+            border: none;
+            width: 100%;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .form-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .form-group input {
+            width: 48%;
+        }
+
+        .admin-btn {
+            background-color: #FF5733;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">Garbage Collector</div>
+
+    <div class="overlay" id="userForm">
+        <h2 id="formTitle">User Login</h2>
+
+        <div id="loginSection">
+            <input type="tel" id="phoneNumber" placeholder="Enter 10-digit phone number">
+            <button onclick="userLogin()">Login</button>
+            <button class="admin-btn" onclick="window.location.href='adminLogin.html'">Login as Admin</button>
+        </div>
+
+        <div id="detailsSection" class="hidden">
+            <div class="form-group">
+                <input type="text" id="userName" placeholder="Name">
+                <input type="text" id="doorNo" placeholder="Door No">
+            </div>
+            <div class="form-group">
+                <input type="text" id="streetName" placeholder="Street Name">
+                <input type="text" id="villageName" placeholder="Village Name">
+            </div>
+            <select id="garbageType">
+                <option value="">Select Garbage Type</option>
+                <option value="Organic">Organic</option>
+                <option value="Plastic">Plastic</option>
+                <option value="Glass">Glass</option>
+                <option value="Metal">Metal</option>
+            </select>
+            <button onclick="submitDetails()">Submit</button>
+        </div>
+    </div>
+
+    <script>
+        function userLogin() {
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const phoneRegex = /^[0-9]{10}$/;
+
+            if (phoneRegex.test(phoneNumber)) {
+                document.getElementById('formTitle').innerText = "User Details";
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('detailsSection').classList.remove('hidden');
+            } else {
+                alert('Please enter a valid 10-digit phone number.');
+            }
+        }
+
+        function submitDetails() {
+            const user = {
+                name: document.getElementById('userName').value,
+                doorNo: document.getElementById('doorNo').value,
+                street: document.getElementById('streetName').value,
+                village: document.getElementById('villageName').value,
+                garbageType: document.getElementById('garbageType').value,
+                status: 'In Progress'
+            };
+
+            if (!user.name || !user.doorNo || !user.street || !user.village || !user.garbageType) {
+                alert('Please fill in all fields before submitting.');
+                return;
+            }
+
+            let submissions = JSON.parse(localStorage.getItem('submissions')) || [];
+            submissions.push(user);
+            localStorage.setItem('submissions', JSON.stringify(submissions));
+
+            alert('Details submitted successfully!');
+        }
+    </script>
+</body>
+
+</html>
